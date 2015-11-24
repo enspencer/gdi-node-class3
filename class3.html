@@ -131,8 +131,13 @@ module.exports = mongoose.model('Dinosaur', DinosaurSchema);
             </section>
 
             <section>
+                <h3>Mongo Ids</h3>
+                <p>If you've used a framework like Ruby on Rails before you may have seen that objects in a SQL database get assigned ids starting at 1. <a href="https://docs.mongodb.org/manual/reference/object-id/">Mongo</a> assigns unique ids in a different manner, as you can see by the long string of numbers and letters.</p>
+            </section>
+
+            <section>
                 <h3>Mongoose</h3>
-                <p>Add default values and behaviors.</p>
+                <p>Add a default value:</p>
                 <pre><code>
 var DinosaurSchema = new Schema({
   name: {
@@ -141,9 +146,29 @@ var DinosaurSchema = new Schema({
   },
   age: Number
 });
+                </code></pre>
+            </section>
 
+            <section>
+                <h3>Available schema types</h3>
+                <ul>
+                    <li>String</li>
+                    <li>Number</li>
+                    <li>Date</li>
+                    <li>Buffer</li>
+                    <li>Boolean</li>
+                    <li>Mixed</li>
+                    <li>ObjectId</li>
+                    <li>Array</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Add instance methods</h3>
+                <pre><code>
 DinosaurSchema.methods.speak = function() {
   var greeting = "My name is " + this.name + " and my age is " + this.age;
+  console.log(greeting);
   return greeting;
 }
                 </code></pre>
@@ -166,160 +191,219 @@ app.get('/dinosaurs/:id', function(req, res) {
             </section>
 
             <section>
-                <h3>Interacting with routes</h3>
-                <p>How do we test a POST endpoint? How does the server know if '/user' is a PUT or a DELETE?</p>
-                <p></p><br>
-                <p>Navigating to a page in your browser makes a GET request. To make a POST, PUT, or DELETE we can use <a href="http://curl.haxx.se/docs/manual.html">cURL</a> or <a href="https://www.getpostman.com/">Postman</a>.</p>
-                <p></p>
-                <h5 style="margin-top:50px;">Install Postman for Chrome at getpostman.com.</h5>
-                <h5>Try sending a PUT request to your API and viewing the response.</h5>
-            </section>
-
-            <section>
-                <h3>Connecting your API and front end</h3>
-                <p>Express has built in support for templating engines, which allows you to dynamically render data returned by an API. We're going to use <a href="https://github.com/janl/mustache.js/">Mustache.js</a>. To use it first install the dependency: </p>
+                <h3>Hooks</h3>
+                <p>We can also add hooks to our model that run on find, save, remove, initialization, and validate.</p>
                 <pre><code>
-npm install --save mustache-express
-                </code></pre>
-            </section>
-
-            <section>
-                <h3>Using Mustache</h3>
-                <p>In server.js add these lines:</p>
-                <pre><code>
-// Require the node module
-var mustacheExpress = require('mustache-express');
-// Tell Express to use the mustache engine
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-// Tell Express what folder to look in for the views
-app.set('views', __dirname + '/views');
-                </code></pre>
-                <p>And update your GET endpoint:</p>
-                <pre><code>
-app.get('/', function(req, res) {
-  res.render('index', {
-    title: 'Hey',
-    message: 'Hello there!'
-  });
+DinosaurSchema.post('save', function(doc) {
+  console.log('Dino with id %s has been saved', doc._id);
 });
                 </code></pre>
             </section>
 
             <section>
-                <h3>What do templates give us?</h3>
-                <p>Template engines allow us to use the same HTML file to render any data. You can use the same index.mustache file to render your POST response:</p>
+                <h3>Mongoose Queries</h3>
+                <p>We use a few queries in our API to find one or many dinos:</p>
                 <pre><code>
-app.post('/', function(req, res) {
-  res.render('index', {
-    title: 'This is a POST',
-    message: 'Hello there!'
-  });
-});
+Dinosaur.find();
+Dinosaur.findById();
                 </code></pre>
-                <p>And send a POST to localhost:9000 from Postman or cURL.</p>
             </section>
 
             <section>
-                <h3>Let's develop it</h3>
-                <p>Create another GET endpoint in server.js and another mustache file in the views/ folder and render the template with that endpoint.</p>
+                <h3>Calling functions</h3>
+                <p>There are two ways to call mongo queries:</p>
+                <pre><code>
+Dinosaur.find(callback);
+                </code></pre>
+                <pre><code>
+Dinosaur.find().exec(callback);
+                </code></pre>
             </section>
 
             <section>
-                <h3>Mongo!</h3>
-                <p>Time to connect our endpoints to some data. If you don't have Mongo installed, let's do that now. If you do, read through the overview of Mongo.</p>
+                <h3>More queries</h3>
+                <pre><code>
+// Find one named Beyonce
+Dinosaur.findOne({name: 'Beyonce'}).exec(callback);
+// Find all named Beyonce
+Dinosaur.find({name: 'Beyonce'}).exec(callback);
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Advanced queries</h3>
+                <p>What if we want to find only the first 3 teenage dinos sorted by age? One plus of using .exec() is the ability to chain our query:</p>
+                <pre><code>
+Dinosaur.find({
+    age: { $gt: 12, $lt: 20 }
+}).limit(3).sort({ age: -1 }).exec(callback);
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Query builder</h3>
+                <p>If you prefer you can use another syntax:</p>
+                <pre><code>
+Dinosaur.
+  find().
+  where('name').equals('Beyonce').
+  where('age').gt(12).lt(20).
+  limit(10).
+  sort('-name').
+  select('name').
+  exec(callback);
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>.select()</h3>
+                <p>Using .select() on your query allows you to specify which fields you want returned:</p>
+                <pre><code>
+Dinosaur.
+  find().
+  limit(10).
+  select('name').
+  exec(callback);
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Queries</h3>
+                <p>Using the queries.js file try writing different Mongo queries and executing them from the command line.</p>
+            </section>
+
+            <section>
+                <h3>Class exercise</h3>
+                <p>Let's create another Express app with Mongo and Mustache for the front end:</p>
                 <ul>
-                    <li>Mongo tutorial: http://goo.gl/oQvBW6</li>
-                    <li>For Windows: https://goo.gl/dvi6uI</li>
-                    <li>For Mac: https://goo.gl/yyL0uK</li>
+                    <li>Create a new project directory</li>
+                    <li>Run `npm init` to set up your package.json</li>
+                    <li>Run `npm install --save MODULE` for the modules you need</li>
+                    <li>Create a new model (it doesn't have to be a dino) with schema properties of different types</li>
+                    <li>Create a file for the server and make GET and POST routes for your model</li>
+                    <li>Connect the GET to a Mustache.js view</li>
                 </ul>
             </section>
 
             <section>
-                <h3>Connect to Mongo</h3>
-                <pre><code>
-npm install --save mongoose && npm install --save body-parser
-                </code></pre>
-                <p>Then in your server.js file add:</p>
-                <pre><code>
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-mongoose.connect('mongodb://localhost/test');
-var Dinosaur = require('./models/dinosaur');
+                <h3>Get creative</h3>
+                <ul>
+                    <li>Create more models and try rendering a Mustache view that shows two different models.</li>
+                    <li>Write pre- and post- action hooks following the docs <a href="http://mongoosejs.com/docs/middleware.html">here</a>.</li>
+                    <li>Create an HTML form and POST to your API from the browser</li>
+                </ul>
+            </section>
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json());
+            <section>
+                <h3>Grunt</h3>
+                <p>Grunt is a task runner that can perform tasks like minification, compilation, unit testing, linting. Globally install the Grunt command line interface (CLI) and create a Gruntfile.js:</p>
+                <pre><code>
+npm install -g grunt-cli
+touch Gruntfile.js
                 </code></pre>
             </section>
 
             <section>
-                <h3>Create a new route</h3>
+                <h3>Dependencies</h3>
+                <p>In your package.json add these as dev dependencies:</p>
                 <pre><code>
-app.post('/dinosaurs', function(req, res) {
-  var dino = new Dinosaur();
-  dino.name = req.body.name;
-  dino.save(function(err) {
-    if (err)
-      res.send(err);
-
-    res.json({
-      message: 'Dino created!'
-    });
-  });
-});
-                </code></pre>
-            </section>
-
-            <section>
-                <h3>Let's create some dinos!</h3>
-                <p>Using Postman send a POST request with a JSON body that looks like this:</p>
-                <pre><code>
-{
-    "name": "Tracy Rex"
+"devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "*",
+    "grunt-htmlhint": "*",
+    "grunt-contrib-uglify": "~0.5.0",
+    "matchdep": "*"
 }
                 </code></pre>
-                <p>Ask a TA for help sending JSON via Postman! Create a few dinosaurs with different names.</p>
+                <p>Then run `npm install`</p>
             </section>
 
             <section>
-                <h3>Get a list of dinos</h3>
+                <h3>Create a Grunt task</h3>
                 <pre><code>
-app.get('/dinosaurs', function(req, res) {
-  Dinosaur.find(function(err, dinos) {
-    if (err)
-      res.send(err);
+module.exports = function(grunt){
 
-    res.json(dinos);
-  });
-});
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json')
+    });
+
+    grunt.registerTask('default', []);
+
+};
                 </code></pre>
             </section>
 
             <section>
-                <h3>Let's do more!</h3>
+                <h3>Grunt</h3>
+                <p>Above grunt.initConfig() add this:</p>
+                <pre><code>
+require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
+                </code></pre>
+                <p>The matchdep module will install any devDependencies from the package.json that begin with "grunt-"</p>
+            </section>
+
+            <section>
+                <h3>Watch tasks</h3>
+                <p>Inside grunt.initConfig add these options:</p>
+                <pre><code>htmlhint: {
+    build: {
+        options: {
+            'tag-pair': true,
+            'tagname-lowercase': true,
+            'attr-lowercase': true,
+            'attr-value-double-quotes': true,
+            'spec-char-escape': true
+        },
+        src: ['index.html']
+    }
+},
+watch: {
+    html: {
+        files: ['index.html'],
+        tasks: ['htmlhint']
+    }
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Watch tasks</h3>
+                <p>Now open another terminal and run:</p>
+                <pre><code>
+grunt watch
+                </code></pre>
+                <p>When you edit your HTML file this watch task will run and validate the HTML.</p>
+            </section>
+
+            <section>
+                <h3>Uglify your code</h3>
+                <p>Have you ever seen minified Javascript? Uglify is a module that compresses your code and is used a lot for production applications. Add this option to grunt.initConfig:</p>
+                <pre><code>
+uglify: {
+    build: {
+        files: {
+            'build/js/base.min.js': ['base.js']
+        }
+    }
+},
+watch: {
+    js: {
+        files: ['base.js'],
+        tasks: ['uglify']
+    },
+    html: {...}
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Check out what other options Grunt can do for you!</h3>
+                <p>Look up how to do these things with Grunt:</p>
                 <ul>
-                    <li>Get a single dino</li>
-                    <li>Update a dino’s info</li>
-                    <li>Delete a dino</li>
+                    <li>Automatically build source files when they’re modified</li>
+                    <li>Run a development server</li>
+                    <li>Minify CSS</li>
                 </ul>
-                <h4 style="margin-top:50px;">Example:</h4>
-                <pre><code>
-app.get('/dinosaurs/:id', function(req, res) {
-  Dinosaur.findById(req.params.id, function(err, dinos) {
-    if (err)
-      res.send(err);
-    res.json(dinos);
-  });
-});
-                </code></pre>
-                <p>Read the Mongoose docs for more methods: http://goo.gl/EwvBW</p>
-            </section>
-
-            <section>
-                <h3>Want more?</h3>
-                <p>Data comes back from Mongo as JSON. Modify one of your GET endpoints to render a Mustache template with a dinosaur object from the database.</p>
             </section>
 
 			</div><!-- Close .slides -->
