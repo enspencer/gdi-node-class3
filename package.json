@@ -1,7 +1,11 @@
 {
   "name": "gdi-node-class3",
   "main": "server.js",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "mongoose": "^4.2.7",
+    "mustache-express": "^1.2.1"
+  },
   "scripts": {
     "start": "node server.js"
   },

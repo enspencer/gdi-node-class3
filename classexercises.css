@@ -1,19 +1,6 @@
-/* Pretty code box */
-
-.codebox {
-    border:1px solid black;
-    background-color:#EEEEFF;
-    width:100%;
-    overflow:auto;    
-    padding:10px;
-}
-
-pre {
-	margin: 0;
-}
-
-code{
-	word-wrap: break-word;
+body {
+	font-family: 'Futura';
+	background-color: #5db9db;
 }
 
 /*More readable forms*/
@@ -27,19 +14,19 @@ text-align:	right;
 }
 form textarea, input, select, label, button, optgroup {
 margin-top:	5px;
-} 
+}
 
 /*Overall Design*/
 
 body{
 	background-color: #D3C7B1;
-	font-family: Sans-Serif;	
+	font-family: Sans-Serif;
 }
 
 #wrapper{
 	width: 75em;
 	margin: 2em auto;
-	background-color: #fff;	
+	background-color: #fff;
 }
 
 #header{
@@ -86,7 +73,7 @@ div#footer a{
 #sidebar ul li {
 	display: inline-block;
 	width: 95%;
-	height: 40px;	
+	height: 40px;
 	line-height: 40px;
 	font-size: 130%;
 	padding: 5px;

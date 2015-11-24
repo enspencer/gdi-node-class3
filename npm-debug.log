@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'mustache-express' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose install initial load of /Users/emmaspencer/Code/gdi-node-class3/package.json
+5 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/body-parser/package.json
+6 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/express/package.json
+7 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/grunt/package.json
+8 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/mongoose/package.json
+9 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/mustache-express/package.json
+10 verbose installManyTop reading scoped package data from /Users/emmaspencer/Code/gdi-node-class3/node_modules/underscore/package.json
+11 verbose readDependencies loading dependencies from /Users/emmaspencer/Code/gdi-node-class3/package.json
+12 verbose install mustache-express is installed as 1.2.1
+13 silly cache add args [ 'mustache-express@^1.2.1', null ]
+14 verbose cache add spec mustache-express@^1.2.1
+15 silly cache add parsed spec { raw: 'mustache-express@^1.2.1',
+15 silly cache add   scope: null,
+15 silly cache add   name: 'mustache-express',
+15 silly cache add   rawSpec: '^1.2.1',
+15 silly cache add   spec: '>=1.2.1 <2.0.0',
+15 silly cache add   type: 'range' }
+16 silly addNamed mustache-express@>=1.2.1 <2.0.0
+17 verbose addNamed ">=1.2.1 <2.0.0" is a valid semver range for mustache-express
+18 silly addNameRange { name: 'mustache-express',
+18 silly addNameRange   range: '>=1.2.1 <2.0.0',
+18 silly addNameRange   hasData: false }
+19 silly mapToRegistry name mustache-express
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/mustache-express
+23 verbose addNameRange registry:https://registry.npmjs.org/mustache-express not in flight; fetching
+24 verbose get https://registry.npmjs.org/mustache-express not expired, no request
+25 silly addNameRange number 2 { name: 'mustache-express',
+25 silly addNameRange   range: '>=1.2.1 <2.0.0',
+25 silly addNameRange   hasData: true }
+26 silly addNameRange versions [ 'mustache-express',
+26 silly addNameRange   [ '0.1.0',
+26 silly addNameRange     '0.2.0',
+26 silly addNameRange     '0.2.1',
+26 silly addNameRange     '0.2.2',
+26 silly addNameRange     '0.2.3',
+26 silly addNameRange     '1.0.0',
+26 silly addNameRange     '1.0.1',
+26 silly addNameRange     '1.1.0',
+26 silly addNameRange     '1.2.0',
+26 silly addNameRange     '1.2.1' ] ]
+27 silly addNamed mustache-express@1.2.1
+28 verbose addNamed "1.2.1" is a plain semver version for mustache-express
+29 silly cache afterAdd mustache-express@1.2.1
+30 verbose afterAdd /Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json not in flight; writing
+31 verbose stack Error: EACCES, open '/Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json.533a944bc5a18f401f89afb084d7c3bc'
+31 verbose stack     at Error (native)
+32 verbose cwd /Users/emmaspencer/Code/gdi-node-class3
+33 error Darwin 13.4.0
+34 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--save" "mustache-express"
+35 error node v0.12.7
+36 error npm  v2.11.3
+37 error path /Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json.533a944bc5a18f401f89afb084d7c3bc
+38 error code EACCES
+39 error errno -13
+40 error Error: EACCES, open '/Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json.533a944bc5a18f401f89afb084d7c3bc'
+40 error     at Error (native)
+40 error  { [Error: EACCES, open '/Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json.533a944bc5a18f401f89afb084d7c3bc']
+40 error   errno: -13,
+40 error   code: 'EACCES',
+40 error   path: '/Users/emmaspencer/.npm/mustache-express/1.2.1/package/package.json.533a944bc5a18f401f89afb084d7c3bc',
+40 error   parent: 'gdi-node-class3' }
+41 error Please try running this command again as root/Administrator.
+42 verbose exit [ -13, true ]
