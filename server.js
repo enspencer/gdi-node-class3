@@ -44,13 +44,35 @@ app.get('/', function(req, res) {
 app.post('/dinosaurs', function(req, res) {
   var dino = new Dinosaur();
   dino.name = req.body.name;
+  dino.age = req.body.age;
+  dino.favoriteColor = req.body.favoriteColor;
   console.log(dino);
-  dino.save(function(err) {
+  dino.save(function(err, dino) {
+    console.log(err);
+    console.log(dino);
     if (err)
       res.send(err);
 
     res.json({
       message: 'Dino created!'
+    });
+  });
+});
+
+app.put('/dinosaurs/:id', function(req, res) {
+  Dinosaur.findById(req.params.id, function(err, dino) {
+    dino.name = req.body.name;
+    dino.age = req.body.age;
+    dino.favoriteColor = req.body.favoriteColor;
+    dino.save(function(err, dino) {
+      console.log(err);
+      console.log(dino);
+      if (err)
+        res.send(err);
+
+      res.json({
+        message: 'Dino updated!'
+      });
     });
   });
 });
@@ -61,7 +83,7 @@ app.post('/dinosaurs', function(req, res) {
 // 2. Render the dinos response with the list.mustache template
 app.get('/dinosaurs', function(req, res) {
   Dinosaur.find(function(err, dinos) {
-    //
+    res.json(dinos);
   });
 });
 
@@ -71,7 +93,8 @@ app.get('/dinosaurs', function(req, res) {
 // 2. Render the dino response with the read.mustache template
 app.get('/dinosaurs/:id', function(req, res) {
   Dinosaur.findById(req.params.id, function(err, dino) {
-    //
+    dino.speak();
+  // Dinosaur.speak();
   });
 });
 

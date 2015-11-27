@@ -7,8 +7,11 @@ var callback = function(err, data) {
   console.log(data);
 };
 
-// This function
-Dinosaur.find().exec(callback);
-// Does the same thing as this function
-Dinosaur.find(callback);
-// But .exec() can be useful
+Dinosaur.find({
+  age: {
+    $gt: 12,
+    $lt: 20
+  }
+}).limit(3).sort({
+  age: -1
+}).exec(callback);
